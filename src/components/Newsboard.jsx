@@ -8,10 +8,11 @@ const Newsboard = ({ category }) => {
   const apikey = import.meta.env.VITE_API_KEY;
 
 useEffect(() => {
-  fetch(`http://localhost:5000/news?category=${category}`)
-    .then((res) => res.json())
-    .then((data) => setArticle(data.articles || []))
-    .catch((err) => console.error("Error fetching news:", err));
+  fetch("/api/news?category=general")
+  .then(res => res.json())
+  .then(data => setArticles(data.articles || []))
+  .catch(err => console.error(err));
+
 }, [category]);
 
 
