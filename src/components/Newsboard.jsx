@@ -10,7 +10,7 @@ const Newsboard = ({ category }) => {
 useEffect(() => {
   fetch("/api/news?category=general")
   .then(res => res.json())
-  .then(data => setArticles(data.articles || []))
+  .then(data => setArticle(data.article || []))
   .catch(err => console.error(err));
 
 }, [category]);
