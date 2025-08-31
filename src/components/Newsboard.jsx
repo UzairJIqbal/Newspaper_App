@@ -8,13 +8,12 @@ const Newsboard = ({ category }) => {
   const apikey = import.meta.env.VITE_API_KEY;
 
 useEffect(() => {
-  fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apikey}`)
+  fetch(`http://localhost:5000/news?category=${category}`)
     .then((res) => res.json())
-    .then((data) => {
-      setArticle(data.articles || []);
-    })
+    .then((data) => setArticle(data.articles || []))
     .catch((err) => console.error("Error fetching news:", err));
 }, [category]);
+
 
 
   return (
