@@ -5,16 +5,17 @@ import NewsItem from "./NewsItem";
 
 const Newsboard = ({ category }) => {
   const [article, setArticle] = useState([]);
+  const apikey = import.meta.env.VITE_API_KEY;
 
-  useEffect(() => {
-    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${
-      import.meta.env.VITE_API_KEY
-    }`;
+useEffect(() => {
+  fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apikey}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setArticle(data.articles || []);
+    })
+    .catch((err) => console.error("Error fetching news:", err));
+}, [category]);
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => setArticle(data.articles));
-  }, [category]);
 
   return (
     <div>
