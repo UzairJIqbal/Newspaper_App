@@ -1,6 +1,6 @@
 import express from "express";
-import fetch from "node-fetch";
 import cors from "cors";
+import fetch from "node-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,10 +15,10 @@ app.get("/news", async (req, res) => {
     const response = await fetch(
       `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${process.env.NEWS_API_KEY}`
     );
-
     const data = await response.json();
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
+    console.error("Error fetching news:", error);
     res.status(500).json({ error: "Failed to fetch news" });
   }
 });
