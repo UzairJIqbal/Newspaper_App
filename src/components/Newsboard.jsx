@@ -1,21 +1,19 @@
-import { data } from "autoprefixer";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
 
 const Newsboard = ({ category }) => {
   const [article, setArticle] = useState([]);
-  const apikey = import.meta.env.VITE_API_KEY;
 
-useEffect(() => {
-  fetch("/api/news?category=general")
-  .then(res => res.json())
-  .then(data => setArticle(data.article || []))
-  .catch(err => console.error(err));
+  useEffect(() => {
+    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${
+      import.meta.env.VITE_API_KEY
+    }`;
 
-}, [category]);
-
-
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setArticle(data.articles))
+      .catch((err) => console.error(err));
+  }, [category]);
 
   return (
     <div>
@@ -26,20 +24,17 @@ useEffect(() => {
         </span>
       </h2>
       <div>
-        {article &&
-          article.map((news, index) => {
-            return (
-              <NewsItem
-                key={index}
-                author={news.author}
-                title={news.title}
-                description={news.description}
-                url={news.url}
-                urlToImage={news.urlToImage}
-                publishedAt={news.publishedAt}
-              />
-            );
-          })}
+        {article?.map((news, index) => (
+          <NewsItem
+            key={index}
+            author={news.author}
+            title={news.title}
+            description={news.description}
+            url={news.url}
+            urlToImage={news.urlToImage}
+            publishedAt={news.publishedAt}
+          />
+        ))}
       </div>
     </div>
   );
